@@ -448,4 +448,11 @@ render();
 </html>
 HTMLTAIL
 
-echo "Generated $OUT with $(echo "$AGENTS_JSON" | python3 -c 'import sys,json; print(len(json.loads(sys.stdin.read())))') agents"
+AGENT_COUNT=$(echo "$AGENTS_JSON" | python3 -c 'import sys,json; print(len(json.loads(sys.stdin.read())))')
+echo "Generated $OUT with $AGENT_COUNT agents"
+
+# Also copy to docs site if it exists
+if [ -d "$SCRIPT_DIR/docs/public" ]; then
+  cp "$OUT" "$SCRIPT_DIR/docs/public/browser.html"
+  echo "Copied to docs/public/browser.html"
+fi
