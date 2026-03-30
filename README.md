@@ -2,7 +2,7 @@
 
 An organization-wide library of AI agent definitions, rules, and workflows — shared across **Claude Code**, **Cursor**, **ChatGPT**, **Gemini**, **Amp**, **Windsurf**, and more. One repo, every department, every platform.
 
-**[Read the full docs](https://stratpoint.github.io/ultimate-ai-agents/)** | Run locally: `cd docs && npm run dev`
+**[Read the full docs](https://ultimate-ai-agents-docs.pages.dev)** | Run locally: `cd docs && npm run dev`
 
 ## Who This Is For
 
@@ -88,7 +88,7 @@ ultimate-ai-agents/
 One command to set up all agents and workflows:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/stratpoint/ultimate-ai-agents/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/stratpoint-engineering/ultimate-ai-agents/main/install.sh | bash
 ```
 
 The installer auto-detects which tools you have installed (Claude Code, Cursor, Amp, Windsurf, Gemini CLI) and deploys the right files to each one.
@@ -130,7 +130,7 @@ If running from a cloned repo, `update.sh` does `git pull` first, shows what cha
 ### Uninstall
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/stratpoint/ultimate-ai-agents/main/uninstall.sh | bash
+curl -fsSL https://raw.githubusercontent.com/stratpoint-engineering/ultimate-ai-agents/main/uninstall.sh | bash
 ```
 
 Or if you cloned the repo:

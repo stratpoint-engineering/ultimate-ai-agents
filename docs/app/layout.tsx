@@ -8,7 +8,7 @@ export const metadata = {
   description: 'AI agents and workflows — every platform, every department.',
 }
 
-const navbar = <Navbar logo={<strong>Ultimate AI Agents</strong>} projectLink="https://github.com/stratpoint/ultimate-ai-agents" />
+const navbar = <Navbar logo={<strong>Ultimate AI Agents</strong>} projectLink="https://github.com/stratpoint-engineering/ultimate-ai-agents" />
 const footer = <Footer>MIT {new Date().getFullYear()} &copy; Stratpoint. Built with Nextra.</Footer>
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -19,7 +19,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Layout
           navbar={navbar}
           pageMap={await getPageMap()}
-          docsRepositoryBase="https://github.com/stratpoint/ultimate-ai-agents/tree/main/docs"
+          docsRepositoryBase="https://github.com/stratpoint-engineering/ultimate-ai-agents/tree/main/docs"
           footer={footer}
           sidebar={{ defaultMenuCollapseLevel: 2, toggleButton: true }}
           toc={{ backToTop: true }}

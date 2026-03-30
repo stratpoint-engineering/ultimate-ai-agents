@@ -44,7 +44,7 @@ TOOL_COUNT=0
 INTERACTIVE=false
 
 # Defaults (applied after interactive prompts or when env vars are empty)
-DEFAULT_REPO_URL="https://github.com/stratpoint/ultimate-ai-agents.git"
+DEFAULT_REPO_URL="https://github.com/stratpoint-engineering/ultimate-ai-agents.git"
 DEFAULT_BRANCH="main"
 
 # All valid departments
