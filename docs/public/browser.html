@@ -198,12 +198,47 @@
   .close-btn:hover { color: var(--text); border-color: var(--muted); }
 
   .count { color: var(--muted); font-size: 0.8rem; margin-bottom: 1rem; }
+
+  /* Dev bar */
+  .dev-bar {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .dev-bar span { margin-right: auto; }
+  .dev-link {
+    padding: 0.35rem 0.7rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  .dev-link:hover { color: var(--text); border-color: var(--muted); }
 </style>
 </head>
 <body>
 
 <h1>Ultimate AI Agents</h1>
 <p class="subtitle">Browse agents by department. Click any agent to copy its prompt for your platform.</p>
+
+<div class="dev-bar">
+  <span>For developers and advanced users:</span>
+  <a href="https://ultimate-ai-agents-docs.pages.dev/install" class="dev-link" target="_blank">CLI Install Guide</a>
+  <a href="https://ultimate-ai-agents-docs.pages.dev/platforms" class="dev-link" target="_blank">Platform Integration</a>
+  <a href="https://ultimate-ai-agents-docs.pages.dev/reference" class="dev-link" target="_blank">Reference Docs</a>
+  <a href="https://github.com/stratpoint-engineering/ultimate-ai-agents" class="dev-link" target="_blank">GitHub</a>
+</div>
 
 <div class="platform-bar">
   <label>Platform:</label>
