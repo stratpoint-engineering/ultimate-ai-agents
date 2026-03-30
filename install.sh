@@ -195,17 +195,16 @@ step()    { echo -e "  ${ARROW} $1"; }
 
 banner() {
   local v="v${VERSION}"
-  local w=36
-  local v_pad=$(( (w - ${#v}) / 2 ))
-  local v_right=$(( w - v_pad - ${#v} ))
+  local v_pad=$(( (36 - ${#v}) / 2 ))
+  local v_right=$(( 36 - v_pad - ${#v} ))
   echo ""
   echo -e "${BOLD}${CYAN}"
-  echo "  ╔════════════════════════════════════╗"
-  echo "  ║                                    ║"
-  echo "  ║    Ultimate AI Agents Installer    ║"
-  printf "  ║%*s%s%*s║\n" "$v_pad" "" "$v" "$v_right" ""
-  echo "  ║                                    ║"
-  echo "  ╚════════════════════════════════════╝"
+  echo "  +------------------------------------+"
+  echo "  |                                    |"
+  echo "  |    Ultimate AI Agents Installer    |"
+  printf "  |%*s%s%*s|\n" "$v_pad" "" "$v" "$v_right" ""
+  echo "  |                                    |"
+  echo "  +------------------------------------+"
   echo -e "${RESET}"
   echo -e "  ${DIM}Claude Code · Cursor · Codex · Gemini · Amp · Windsurf${RESET}"
   echo -e "  ${DIM}Press Ctrl-C at any time to quit${RESET}"
