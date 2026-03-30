@@ -47,8 +47,8 @@ REMOVED=0
 
 # ─── Interactive prompts ────────────────────────────────────────────────────────
 prompt_options() {
-  if [ "$FORCE_INTERACTIVE" = false ] && [ ! -t 0 ]; then return; fi
   if [ -n "$SCOPE" ] || [ -n "$TOOLS" ]; then return; fi
+  if [ "$FORCE_INTERACTIVE" = false ] && ! [ -e /dev/tty ]; then return; fi
 
   echo ""
   echo -e "${BOLD}${RED}  Uninstall Ultimate AI Agents${RESET}"
@@ -61,7 +61,7 @@ prompt_options() {
   echo -e "    ${CYAN}2${RESET}) Global ${DIM}(~/.claude/, ~/.cursor/, etc.)${RESET}"
   echo ""
   printf "  Choice [1]: "
-  read -r scope_choice
+  read -r scope_choice </dev/tty
   case "${scope_choice:-1}" in
     2) SCOPE="global" ;;
     *) SCOPE="project" ;;
@@ -74,7 +74,7 @@ prompt_options() {
   echo -e "    ${CYAN}2${RESET}) Let me pick..."
   echo ""
   printf "  Choice [1]: "
-  read -r tools_choice
+  read -r tools_choice </dev/tty
   echo ""
 
   case "${tools_choice:-1}" in
@@ -83,7 +83,7 @@ prompt_options() {
       echo -e "  ${DIM}Select tools to remove (y/n for each):${RESET}"
       for tool in claude cursor codex amp gemini windsurf; do
         printf "    %-12s [y/N]: " "$tool"
-        read -r yn
+        read -r yn </dev/tty
         if [[ "${yn:-n}" =~ ^[Yy] ]]; then
           if [ -n "$TOOLS" ]; then TOOLS="$TOOLS,$tool"; else TOOLS="$tool"; fi
         fi
@@ -103,7 +103,7 @@ prompt_options() {
   echo -e "  Tools: ${BOLD}$TOOLS${RESET}"
   echo ""
   printf "  Proceed? [Y/n]: "
-  read -r confirm
+  read -r confirm </dev/tty
   if [[ "${confirm:-y}" =~ ^[Nn] ]]; then
     echo -e "\n  ${DIM}Cancelled.${RESET}\n"
     exit 0

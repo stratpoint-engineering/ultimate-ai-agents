@@ -62,9 +62,10 @@ VALID_DEPTS="engineering product-design project-management sales marketing hr l-
 
 # ─── Interactive prompts ────────────────────────────────────────────────────────
 prompt_options() {
-  # Only go interactive if stdin is a terminal (or --interactive forced) AND no env vars set
-  if [ "$FORCE_INTERACTIVE" = false ] && [ ! -t 0 ]; then return; fi
+  # Go interactive if /dev/tty is available (works even when script is piped via curl)
+  # Skip if env vars are set (non-interactive mode)
   if [ -n "$SCOPE" ] || [ -n "$TOOLS" ] || [ -n "$DEPT" ]; then return; fi
+  if [ "$FORCE_INTERACTIVE" = false ] && ! [ -e /dev/tty ]; then return; fi
 
   INTERACTIVE=true
 
@@ -74,7 +75,7 @@ prompt_options() {
   echo -e "    ${CYAN}2${RESET}) Global ${DIM}(~/.claude/, ~/.cursor/, etc.)${RESET}"
   echo ""
   printf "  Choice [1]: "
-  read -r scope_choice
+  read -r scope_choice </dev/tty
   case "${scope_choice:-1}" in
     2) SCOPE="global" ;;
     *) SCOPE="project" ;;
@@ -88,7 +89,7 @@ prompt_options() {
   echo -e "    ${CYAN}3${RESET}) Let me pick..."
   echo ""
   printf "  Choice [1]: "
-  read -r tools_choice
+  read -r tools_choice </dev/tty
   echo ""
 
   case "${tools_choice:-1}" in
@@ -98,7 +99,7 @@ prompt_options() {
       echo -e "  ${DIM}Select tools (y/n for each):${RESET}"
       for tool in claude cursor codex amp gemini windsurf; do
         printf "    %-12s [y/N]: " "$tool"
-        read -r yn
+        read -r yn </dev/tty
         if [[ "${yn:-n}" =~ ^[Yy] ]]; then
           if [ -n "$TOOLS" ]; then TOOLS="$TOOLS,$tool"; else TOOLS="$tool"; fi
         fi
@@ -119,7 +120,7 @@ prompt_options() {
   echo -e "    ${CYAN}3${RESET}) Let me pick..."
   echo ""
   printf "  Choice [1]: "
-  read -r dept_choice
+  read -r dept_choice </dev/tty
   echo ""
 
   case "${dept_choice:-1}" in
@@ -150,7 +151,7 @@ prompt_options() {
       done
       echo ""
       printf "  Enter number: "
-      read -r dept_num
+      read -r dept_num </dev/tty
       if [ -n "$dept_num" ] && [ "$dept_num" -ge 1 ] 2>/dev/null && [ "$dept_num" -le "${#dept_arr[@]}" ] 2>/dev/null; then
         DEPT="${dept_arr[$((dept_num - 1))]}"
       else
@@ -169,7 +170,7 @@ prompt_options() {
   echo -e "  Dept:  ${BOLD}$DEPT${RESET}"
   echo ""
   printf "  Proceed? [Y/n]: "
-  read -r confirm
+  read -r confirm </dev/tty
   if [[ "${confirm:-y}" =~ ^[Nn] ]]; then
     echo -e "\n  ${DIM}Cancelled.${RESET}\n"
     exit 0
