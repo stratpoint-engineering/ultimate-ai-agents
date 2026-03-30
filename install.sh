@@ -13,6 +13,13 @@
 
 set -euo pipefail
 
+# ─── Version ────────────────────────────────────────────────────────────────────
+VERSION="1.0.0"
+if [[ "${1:-}" == "--version" || "${1:-}" == "-v" ]]; then
+  echo "ultimate-ai-agents $VERSION"
+  exit 0
+fi
+
 # ─── Cleanup & Ctrl-C ──────────────────────────────────────────────────────────
 TMPDIR=""
 cleanup() { [ -n "$TMPDIR" ] && rm -rf "$TMPDIR" 2>/dev/null || true; }
@@ -187,7 +194,7 @@ banner() {
   echo -e "${BOLD}${CYAN}"
   echo "  ╔══════════════════════════════════════════╗"
   echo "  ║       Ultimate AI Agents Installer       ║"
-  echo "  ║     agents · workflows · every platform    ║"
+  echo "  ║              v${VERSION}                       ║"
   echo "  ╚══════════════════════════════════════════╝"
   echo -e "${RESET}"
   echo -e "  ${DIM}Claude Code · Cursor · Codex · Gemini · Amp · Windsurf${RESET}"
