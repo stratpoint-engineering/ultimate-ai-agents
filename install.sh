@@ -15,10 +15,13 @@ set -euo pipefail
 
 # ─── Version ────────────────────────────────────────────────────────────────────
 VERSION="1.0.0"
-if [[ "${1:-}" == "--version" || "${1:-}" == "-v" ]]; then
-  echo "ultimate-ai-agents $VERSION"
-  exit 0
-fi
+FORCE_INTERACTIVE=false
+for arg in "$@"; do
+  case "$arg" in
+    --version|-v) echo "ultimate-ai-agents $VERSION"; exit 0 ;;
+    --interactive|-i) FORCE_INTERACTIVE=true ;;
+  esac
+done
 
 # ─── Cleanup & Ctrl-C ──────────────────────────────────────────────────────────
 TMPDIR=""
@@ -59,8 +62,8 @@ VALID_DEPTS="engineering product-design project-management sales marketing hr l-
 
 # ─── Interactive prompts ────────────────────────────────────────────────────────
 prompt_options() {
-  # Only go interactive if stdin is a terminal AND no options were set via env
-  if [ ! -t 0 ]; then return; fi
+  # Only go interactive if stdin is a terminal (or --interactive forced) AND no env vars set
+  if [ "$FORCE_INTERACTIVE" = false ] && [ ! -t 0 ]; then return; fi
   if [ -n "$SCOPE" ] || [ -n "$TOOLS" ] || [ -n "$DEPT" ]; then return; fi
 
   INTERACTIVE=true
@@ -192,10 +195,17 @@ step()    { echo -e "  ${ARROW} $1"; }
 banner() {
   echo ""
   echo -e "${BOLD}${CYAN}"
-  echo "  ╔══════════════════════════════════════════╗"
-  echo "  ║       Ultimate AI Agents Installer       ║"
-  echo "  ║              v${VERSION}                       ║"
-  echo "  ╚══════════════════════════════════════════╝"
+  local label="v${VERSION}"
+  local box_width=42
+  local inner=$((box_width - 2))
+  local pad=$(( (inner - ${#label}) / 2 ))
+  local right=$(( inner - pad - ${#label} ))
+  echo "  ╔$(printf '═%.0s' $(seq 1 $box_width))╗"
+  echo "  ║$(printf ' %.0s' $(seq 1 $inner))║"
+  echo "  ║$(printf ' %.0s' $(seq 1 7))Ultimate AI Agents Installer$(printf ' %.0s' $(seq 1 7))║"
+  echo "  ║$(printf ' %.0s' $(seq 1 $pad))${label}$(printf ' %.0s' $(seq 1 $right))║"
+  echo "  ║$(printf ' %.0s' $(seq 1 $inner))║"
+  echo "  ╚$(printf '═%.0s' $(seq 1 $box_width))╝"
   echo -e "${RESET}"
   echo -e "  ${DIM}Claude Code · Cursor · Codex · Gemini · Amp · Windsurf${RESET}"
   echo -e "  ${DIM}Press Ctrl-C at any time to quit${RESET}"

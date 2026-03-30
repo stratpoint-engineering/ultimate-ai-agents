@@ -12,10 +12,13 @@ set -euo pipefail
 
 # ─── Version ────────────────────────────────────────────────────────────────────
 VERSION="1.0.0"
-if [[ "${1:-}" == "--version" || "${1:-}" == "-v" ]]; then
-  echo "ultimate-ai-agents $VERSION"
-  exit 0
-fi
+FORCE_INTERACTIVE=false
+for arg in "$@"; do
+  case "$arg" in
+    --version|-v) echo "ultimate-ai-agents $VERSION"; exit 0 ;;
+    --interactive|-i) FORCE_INTERACTIVE=true ;;
+  esac
+done
 
 # ─── Ctrl-C handler ────────────────────────────────────────────────────────────
 trap 'echo -e "\n\n  \033[2mCancelled.\033[0m\n"; exit 130' INT
@@ -44,7 +47,7 @@ REMOVED=0
 
 # ─── Interactive prompts ────────────────────────────────────────────────────────
 prompt_options() {
-  if [ ! -t 0 ]; then return; fi
+  if [ "$FORCE_INTERACTIVE" = false ] && [ ! -t 0 ]; then return; fi
   if [ -n "$SCOPE" ] || [ -n "$TOOLS" ]; then return; fi
 
   echo ""
