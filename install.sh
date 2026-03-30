@@ -194,19 +194,18 @@ header()  { echo -e "\n${BOLD}${BLUE}$1${RESET}"; }
 step()    { echo -e "  ${ARROW} $1"; }
 
 banner() {
+  local v="v${VERSION}"
+  local w=36
+  local v_pad=$(( (w - ${#v}) / 2 ))
+  local v_right=$(( w - v_pad - ${#v} ))
   echo ""
   echo -e "${BOLD}${CYAN}"
-  local label="v${VERSION}"
-  local box_width=42
-  local inner=$((box_width - 2))
-  local pad=$(( (inner - ${#label}) / 2 ))
-  local right=$(( inner - pad - ${#label} ))
-  echo "  ╔$(printf '═%.0s' $(seq 1 $box_width))╗"
-  echo "  ║$(printf ' %.0s' $(seq 1 $inner))║"
-  echo "  ║$(printf ' %.0s' $(seq 1 7))Ultimate AI Agents Installer$(printf ' %.0s' $(seq 1 7))║"
-  echo "  ║$(printf ' %.0s' $(seq 1 $pad))${label}$(printf ' %.0s' $(seq 1 $right))║"
-  echo "  ║$(printf ' %.0s' $(seq 1 $inner))║"
-  echo "  ╚$(printf '═%.0s' $(seq 1 $box_width))╝"
+  echo "  ╔════════════════════════════════════╗"
+  echo "  ║                                    ║"
+  echo "  ║    Ultimate AI Agents Installer    ║"
+  printf "  ║%*s%s%*s║\n" "$v_pad" "" "$v" "$v_right" ""
+  echo "  ║                                    ║"
+  echo "  ╚════════════════════════════════════╝"
   echo -e "${RESET}"
   echo -e "  ${DIM}Claude Code · Cursor · Codex · Gemini · Amp · Windsurf${RESET}"
   echo -e "  ${DIM}Press Ctrl-C at any time to quit${RESET}"
