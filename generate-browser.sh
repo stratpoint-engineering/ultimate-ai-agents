@@ -48,16 +48,32 @@ cat > "$OUT" <<'HTMLHEAD'
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ultimate AI Agents</title>
 <style>
-  :root {
+  :root, [data-theme="light"] {
+    --bg: #ffffff;
+    --card: #f9fafb;
+    --border: #e5e7eb;
+    --text: #111827;
+    --muted: #6b7280;
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --green: #22c55e;
+    --radius: 8px;
+  }
+  [data-theme="dark"] {
     --bg: #0a0a0a;
     --card: #141414;
     --border: #262626;
     --text: #e5e5e5;
     --muted: #737373;
-    --accent: #3b82f6;
-    --accent-hover: #2563eb;
-    --green: #22c55e;
-    --radius: 8px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0a0a0a;
+      --card: #141414;
+      --border: #262626;
+      --text: #e5e5e5;
+      --muted: #737373;
+    }
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -70,7 +86,19 @@ cat > "$OUT" <<'HTMLHEAD'
     margin: 0 auto;
   }
   h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.25rem; }
-  .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 0.9rem; }
+  .subtitle { color: var(--muted); margin-bottom: 0; font-size: 0.9rem; }
+
+  /* Sticky header */
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--bg);
+    padding-bottom: 1rem;
+    margin: -2rem -2rem 1.5rem -2rem;
+    padding: 1.5rem 2rem 1rem 2rem;
+    border-bottom: 1px solid var(--border);
+  }
 
   /* Controls */
   .controls {
@@ -272,10 +300,18 @@ cat > "$OUT" <<'HTMLHEAD'
 </head>
 <body>
 
-<h1>Ultimate AI Agents</h1>
-<p class="subtitle">Browse agents by department. Click any agent to copy its prompt for your platform.</p>
+<div class="sticky-header">
+<div style="display:flex;justify-content:space-between;align-items:flex-start">
+  <div>
+    <h1>Ultimate AI Agents</h1>
+    <p class="subtitle">Browse agents by department. Click any agent to copy its prompt for your platform.</p>
+  </div>
+  <button id="theme-toggle" title="Toggle theme" style="background:none;border:1px solid var(--border);border-radius:var(--radius);padding:0.4rem 0.6rem;cursor:pointer;color:var(--text);font-size:1.1rem;line-height:1">
+    <span id="theme-icon"></span>
+  </button>
+</div>
 
-<div class="dev-bar">
+<div class="dev-bar" style="margin-top:0.75rem;margin-bottom:0">
   <span>For developers and advanced users:</span>
   <a href="https://ultimate-ai-agents-docs.pages.dev/install" class="dev-link" target="_blank">CLI Install Guide</a>
   <a href="https://ultimate-ai-agents-docs.pages.dev/platforms" class="dev-link" target="_blank">Platform Integration</a>
@@ -283,7 +319,7 @@ cat > "$OUT" <<'HTMLHEAD'
   <a href="https://github.com/stratpoint-engineering/ultimate-ai-agents" class="dev-link" target="_blank">GitHub</a>
 </div>
 
-<div class="platform-bar">
+<div class="platform-bar" style="margin-top:0.75rem;margin-bottom:0">
   <label>Platform:</label>
   <button class="platform-btn active" data-platform="claude-web">Claude.ai</button>
   <button class="platform-btn" data-platform="chatgpt">ChatGPT</button>
@@ -292,9 +328,10 @@ cat > "$OUT" <<'HTMLHEAD'
   <button class="platform-btn" data-platform="generic">Any LLM</button>
 </div>
 
-<div class="controls">
+<div class="controls" style="margin-top:0.75rem;margin-bottom:0">
   <input class="search" type="text" placeholder="Search agents..." id="search">
   <button class="filter-btn active" data-dept="all">All</button>
+</div>
 </div>
 
 <p class="count" id="count"></p>
@@ -479,6 +516,25 @@ document.addEventListener('keydown', e => {
 });
 
 render();
+
+// Theme toggle
+const themeToggle = document.getElementById('theme-toggle');
+const themeIcon = document.getElementById('theme-icon');
+function getTheme() {
+  return localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+}
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  themeIcon.innerHTML = t === 'dark'
+    ? '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>'
+    : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+}
+applyTheme(getTheme());
+themeToggle.addEventListener('click', () => {
+  const next = getTheme() === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('theme', next);
+  applyTheme(next);
+});
 </script>
 </body>
 </html>
