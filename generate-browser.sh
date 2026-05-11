@@ -24,7 +24,7 @@ while IFS= read -r f; do
   dept=$(echo "$rel_path" | cut -d'/' -f1)
 
   # Extract prompt body (everything after second ---)
-  prompt=$(sed -n '/^---$/,/^---$/d; p' "$f")
+  prompt=$(awk 'BEGIN{n=0} /^---$/{n++;next} n>=2{print}' "$f")
 
   # Escape for JSON
   name_esc=$(echo "$name" | sed 's/"/\\"/g')

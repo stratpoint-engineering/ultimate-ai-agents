@@ -1,5 +1,5 @@
 ---
-name: solarch-brd-generator
+name: brd-generator
 description: Unified BRD agent that WRITES and VALIDATES Business Requirements Documents from stakeholder inputs. Combines the solarch-brd-writer and solarch-brd-validator into a single self-contained workflow. Reads source documents from docs/input/, generates module-based FRs and NFRs, self-validates against sources to prevent hallucinations, and outputs Markdown (+ PDF/HTML when CLI tools are available).
 tools: Read, Write, Edit, Bash, Grep, Glob
 model: sonnet
