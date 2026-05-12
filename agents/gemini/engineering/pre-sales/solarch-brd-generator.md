@@ -1,5 +1,5 @@
 ---
-name: brd-generator
+name: solarch-brd-generator
 description: Use when creating Business Requirements Documents from pre-sales inputs such as RFPs, RFIs, TORs, Solutions Documents, and Estimation Sheets. Reads, classifies, and validates source documents before generating a module-based, source-verified BRD in Markdown. Trigger keywords include BRD, business requirements document, pre-sales requirements, RFP analysis, solution requirements, requirements document, functional requirements, non-functional requirements, stakeholder requirements, BRD generation.
 ---
 
