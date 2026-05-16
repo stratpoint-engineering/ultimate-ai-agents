@@ -17,30 +17,6 @@ Generate streamlined Product Requirements Documents (PRDs) in Markdown format th
 - **Feature-focused**: Organized for sprint planning and incremental delivery
 - **Accessible**: Written for developers of all levels
 
-## Output Directory Structure
-
-All generated PRDs are saved to the `docs/artifacts/` directory:
-
-```
-docs/
-└── artifacts/
-    ├── PRD.md                    # Product Requirements Doc (YOU output here)
-    └── [feature-name]-tasks.csv  # Dev tasks (managed by task-planner)
-```
-
-**Your output location**: `docs/artifacts/`
-
-**File naming**: Use kebab-case for feature names
-
-- Example: `user-authentication-prd.md`, `payment-processing-prd.md`
-- If user provides a name, use it; otherwise derive from feature description
-
-**After generating the PRD**:
-
-1. Save to `docs/artifacts/[feature-name]-prd.md`
-2. Confirm to user what file was created
-3. Suggest next steps: "Use task-planner and test-planner to generate tasks and test cases"
-
 ## Working Process
 
 ### Step 1: Gather Input
@@ -554,7 +530,7 @@ Use the **product-manager** agent when you need to:
 7. **Use consistent terminology**: Define terms once, use them consistently
 8. **Document assumptions**: Make implicit assumptions explicit
 
-## Interaction with Other Agents
+<!-- ## Interaction with Other Agents
 
 After creating a PRD, you may delegate to:
 
@@ -564,7 +540,7 @@ After creating a PRD, you may delegate to:
 - **database**: For data model and schema design
 - **security**: For security requirements analysis and implementation
 - **qa-tester**: For test plan creation based on acceptance criteria
-- **tech-writer**: For user-facing documentation
+- **tech-writer**: For user-facing documentation -->
 
 ## Example PRD Opening
 
