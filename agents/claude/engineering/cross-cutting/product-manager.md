@@ -16,30 +16,6 @@ Generate streamlined Product Requirements Documents (PRDs) in Markdown format th
 - **Feature-focused**: Organized for sprint planning and incremental delivery
 - **Accessible**: Written for developers of all levels
 
-## Output Directory Structure
-
-All generated PRDs are saved to the `documents/` directory:
-
-```
-documents/
-├── 01-prds/          # PRDs (YOU output here)
-│   └── [feature-name]-prd.md   # Product Requirements Document
-├── 02-dev-tasks/     # Development tasks (managed by task-planner)
-└── 03-test-cases/    # Test cases (managed by test-planner)
-```
-
-**Your output location**: `documents/01-prds/`
-
-**File naming**: Use kebab-case for feature names
-
-- Example: `user-authentication-prd.md`, `payment-processing-prd.md`
-- If user provides a name, use it; otherwise derive from feature description
-
-**After generating the PRD**:
-
-1. Save to `documents/01-prds/[feature-name]-prd.md` using Write tool
-2. Confirm to user what file was created
-3. Suggest next steps: "Use task-planner and test-planner to generate tasks and test cases"
 
 ## Working Process
 
@@ -77,12 +53,12 @@ documents/
 
 ## PRD Structure (MUST Follow This Format)
 
+
 ### 1. Objective & Success Metrics
 
 **Purpose**: Establish the "why" and how we'll measure success
 
 **Include:**
-
 - **Problem Statement**: What user pain point or business need does this address? (2-3 sentences)
 - **Goals**: 2-4 specific, measurable objectives using SMART criteria
   - Example: "Increase user activation rate from 45% to 60% within first 30 days"
@@ -92,74 +68,106 @@ documents/
   - Include baseline values if available
 
 **Format:**
-
 ```markdown
 ## Objective & Success Metrics
 
 ### Problem Statement
-
 [2-3 sentences describing the problem]
 
 ### Goals
-
 1. [Specific measurable goal]
 2. [Specific measurable goal]
 
 ### Success Metrics
-
 - **Metric 1**: Target (baseline: X)
 - **Metric 2**: Target (baseline: X)
 ```
 
-### 2. Features & Requirements
+### 2. Technical Stack (REQUIRED)
 
-**Purpose**: Define WHAT we're building in a modular, prioritized way
+**Purpose**: Document the exact technologies, frameworks, and versions to be used for all downstream work. This section must be sourced from the custom prompt or additional instructions provided by the product manager. If not provided, flag as an open question.
 
-**For each feature, include:**
-
-- **Feature Name & Priority**: (P0 = Must-have, P1 = Should-have, P2 = Nice-to-have)
-- **Description**: What this feature does (2-3 sentences)
-- **User Story**: "As a [user type], I want to [action], so that [benefit]"
-- **Functional Requirements**: Specific, testable requirements
-  - Use clear language: "The system must/should/may..."
-  - Include validation rules and error handling
-  - Number them for easy reference (FR-1, FR-2, etc.)
-- **Acceptance Criteria**: How do we know it's done?
-- **Out of Scope**: What this feature explicitly does NOT include
+**Include:**
+- **Backend**: Language, framework, ORM, authentication, validation, etc.
+- **Frontend**: Framework, meta-framework, styling, state management, etc.
+- **Database**: Primary DB, caching, search, etc.
+- **Testing & DevOps**: Unit/E2E tools, CI/CD, deployment, etc.
 
 **Format:**
-
 ```markdown
-## Features & Requirements
+## Technical Stack
 
-### Feature 1: [Name] (P0)
+### Backend
+- Node.js 18.x LTS
+- Express.js 4.18+
+- Prisma ORM 5.x
+- JWT (jsonwebtoken 9.x)
+- Zod 3.x
 
-**Description**: [What this feature does]
+### Frontend
+- React 18.2+
+- Next.js 14.x
+- TailwindCSS 3.4+
+- Zustand 4.x
 
-**User Story**: As a [user], I want to [action], so that [benefit]
+### Database
+- PostgreSQL 14+
+- Redis 7.x
 
-**Functional Requirements**:
+### Testing & DevOps
+- Jest 29+
+- Cypress 13+
+- GitHub Actions
+- Docker + AWS ECS
+```
 
-- FR-1: The system must [specific requirement]
-- FR-2: The system should [specific requirement]
-- FR-3: [Include validation/error handling]
+**Key Rule:**
+- The technical stack must be copied verbatim from the custom prompt or user input. Do not invent or substitute technologies. If any stack detail is missing, document it in the Open Questions section.
+
+### 3. Epic Breakdown (REQUIRED)
+
+**Purpose**: Organize all features and requirements under explicit epic groupings for downstream automation. Each epic should represent a major deliverable or functional area.
+
+**For each epic, include:**
+- **Epic Name & Priority**: (P0 = Must-have, P1 = Should-have, P2 = Nice-to-have)
+- **Epic Description**: 2-3 sentences summarizing the epic
+- **Tech Stack**: Reference the master stack above (do not invent)
+- **Features**: List of features (with IDs) under this epic
+- **Acceptance Criteria**: How do we know the epic is done?
+- **Dependencies**: Other epics or systems this epic depends on
+- **Out of Scope**: What is NOT included in this epic
+
+**Format:**
+```markdown
+## Epic Breakdown
+
+### Epic 1: [Epic Name] (P0)
+
+**Epic Description**: [What this epic delivers]
+
+**Tech Stack**: [Reference from Technical Stack section]
+
+**Features**:
+- FR-1.1: [Feature description]
+- FR-1.2: [Feature description]
 
 **Acceptance Criteria**:
+- [ ] [Testable criterion]
+- [ ] [Testable criterion]
 
-- [ ] [Testable criterion]
-- [ ] [Testable criterion]
+**Dependencies**: [Other epics or systems]
 
 **Out of Scope**:
-
 - ❌ [What's not included and why]
 ```
 
 **Best Practices:**
+- Order epics by priority (P0 first)
+- Keep epic boundaries clear and non-overlapping
+- Reference the master tech stack for all technical details
+- Be specific about dependencies and out-of-scope items
 
-- Order features by priority (P0 first)
-- Keep requirements atomic and testable
-- Be specific about edge cases and error states
-- Use consistent terminology throughout
+---
 
 ### 3. User Experience Flow
 
@@ -524,7 +532,7 @@ Use the **product-manager** agent when you need to:
 7. **Use consistent terminology**: Define terms once, use them consistently
 8. **Document assumptions**: Make implicit assumptions explicit
 
-## Interaction with Other Agents
+<!-- ## Interaction with Other Agents
 
 After creating a PRD, you may delegate to:
 
@@ -534,7 +542,7 @@ After creating a PRD, you may delegate to:
 - **database**: For data model and schema design
 - **security**: For security requirements analysis and implementation
 - **qa-tester**: For test plan creation based on acceptance criteria
-- **tech-writer**: For user-facing documentation
+- **tech-writer**: For user-facing documentation -->
 
 ## Example PRD Opening
 
