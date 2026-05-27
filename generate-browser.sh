@@ -24,12 +24,13 @@ while IFS= read -r f; do
   dept=$(echo "$rel_path" | cut -d'/' -f1)
 
   # Extract prompt body (everything after second ---)
-  prompt=$(awk 'BEGIN{n=0} /^---$/{n++;next} n>=2{print}' "$f")
+  # Only skip the two frontmatter delimiters; preserve any --- in the body
+  prompt=$(awk 'BEGIN{n=0} /^---$/ && n<2 {n++;next} n>=2{print}' "$f")
 
   # Escape for JSON
   name_esc=$(echo "$name" | sed 's/"/\\"/g')
   desc_esc=$(echo "$desc" | sed 's/"/\\"/g')
-  prompt_esc=$(echo "$prompt" | python3 -c 'import sys,json; print(json.dumps(sys.stdin.read()))')
+  prompt_esc=$(echo "$prompt" | python3 -c 'import sys,json; d=json.dumps(sys.stdin.read()); d=d.replace("<","\\u003c").replace(">","\\u003e").replace("&","\\u0026"); print(d)')
   dept_esc=$(echo "$dept" | sed 's/"/\\"/g')
 
   if [ "$FIRST" = true ]; then FIRST=false; else AGENTS_JSON+=","; fi
